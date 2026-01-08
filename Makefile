@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -O3
-LIBS = -lgdi32 -luser32
+LIBS = -lgdi32 -luser32 -lcomctl32
 
 SRC = main.c logic.c
 OBJ = $(SRC:.c=.o)
@@ -15,4 +15,4 @@ $(TARGET): $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	del *.o *.exe
+	del /Q *.o *.exe
