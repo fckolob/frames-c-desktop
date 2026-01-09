@@ -560,7 +560,7 @@ int greedy_bin_packing(double* pieces, int count, double bar_length, double slic
 int calculate_bars_for_group(double* pieces, int count, double bar_length, double slice_val) {
     if (count == 0) return 0;
     qsort(pieces, count, sizeof(double), sort_desc);
-    // if (count > 18) return greedy_bin_packing(pieces, count, bar_length, slice_val);
+    if (count > 18) return greedy_bin_packing(pieces, count, bar_length, slice_val);
     memo_count = 0;
     double empty[MAX_BARS];
     return helper(pieces, count, 0, empty, 0, bar_length, slice_val);

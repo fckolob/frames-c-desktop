@@ -272,7 +272,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             y += 50;
             hResults = CreateWindow("EDIT", "", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL | ES_READONLY, 50, y, 700, 350, hwnd, (HMENU)ID_RESULTS, NULL, NULL);
             
-            LoadOpenings();
+            SaveOpenings(); // Clear data on startup
             UpdateCount();
 
             EnumChildWindows(hwnd, SetFontCallback, (LPARAM)hFont);
