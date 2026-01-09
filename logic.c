@@ -461,109 +461,111 @@ int sort_desc(const void* a, const void* b) {
     return (fa < fb) - (fa > fb);
 }
 
-typedef struct {
-    char key[512];
-    int result;
-} MemoEntry;
-
-MemoEntry memo[5000];
-int memo_count = 0;
-
-int find_cached(const char* key) {
-    for (int i = 0; i < memo_count; i++) {
-        if (strcmp(memo[i].key, key) == 0) return memo[i].result;
-    }
-    return -1;
-}
-
-void add_cache(const char* key, int result) {
-    if (memo_count < 5000) {
-        strncpy(memo[memo_count].key, key, 511);
-        memo[memo_count].result = result;
-        memo_count++;
-    }
-}
-
-int helper(double* pieces, int count, int index, double* remains, int remains_count, double bar_length, double slice_val) {
-    if (index >= count) return 0;
-
-    // Filter remains
-    double min_piece = pieces[count - 1]; // sorted desc
-    double filtered[MAX_BARS];
-    int f_count = 0;
-    for (int i = 0; i < remains_count; i++) {
-        if (remains[i] >= min_piece + slice_val) filtered[f_count++] = remains[i];
-    }
-    qsort(filtered, f_count, sizeof(double), sort_desc);
-
-    char key[512];
-    char part[64];
-    sprintf(key, "%d|", index);
-    for (int i = 0; i < f_count; i++) {
-        sprintf(part, "%.1f,", filtered[i]);
-        strcat(key, part);
-    }
-
-    int cached = find_cached(key);
-    if (cached != -1) return cached;
-
-    int min_bars = 999999;
-    double piece = pieces[index];
-
-    // Try put in existing
-    for (int i = 0; i < f_count; i++) {
-        if (filtered[i] >= piece + slice_val) {
-            double* next_remains = malloc(sizeof(double) * f_count);
-            if (next_remains) {
-                memcpy(next_remains, filtered, sizeof(double) * f_count);
-                next_remains[i] -= (piece + slice_val);
-                int res = helper(pieces, count, index + 1, next_remains, f_count, bar_length, slice_val);
-                if (res < min_bars) min_bars = res;
-                free(next_remains);
-            }
-        }
-    }
-
-    // New bin
-    double* next_remains_new = malloc(sizeof(double) * (f_count + 1));
-    if (next_remains_new) {
-        memcpy(next_remains_new, filtered, sizeof(double) * f_count);
-        next_remains_new[f_count] = bar_length - (piece + slice_val);
-        int res_new = 1 + helper(pieces, count, index + 1, next_remains_new, f_count + 1, bar_length, slice_val);
-        if (res_new < min_bars) min_bars = res_new;
-        free(next_remains_new);
-    }
-
-    add_cache(key, min_bars);
-    return min_bars;
-}
+// Branch and Bound / DFS Globals
+int g_best_solution = 999999;
+double* g_pieces_ref = NULL;
+int g_count_ref = 0;
+double g_bar_len_ref = 0;
+double g_slice_ref = 0;
 
 int greedy_bin_packing(double* pieces, int count, double bar_length, double slice_val) {
-    double bins[MAX_BARS];
+    double bins[1000]; // Increased safely
     int bin_count = 0;
     for (int i = 0; i < count; i++) {
         bool placed = false;
+        double piece_size = pieces[i] + slice_val;
         for (int j = 0; j < bin_count; j++) {
-            if (bins[j] >= pieces[i] + slice_val) {
-                bins[j] -= (pieces[i] + slice_val);
+            if (bins[j] >= piece_size) {
+                bins[j] -= piece_size;
                 placed = true;
                 break;
             }
         }
         if (!placed) {
-            bins[bin_count++] = bar_length - (pieces[i] + slice_val);
+            bins[bin_count++] = bar_length - piece_size;
         }
     }
     return bin_count;
 }
 
+void dfs_bnb(int current_piece_idx, double* current_bins, int bin_count) {
+    // Pruning 1: If current bins already >= best found, stop.
+    if (bin_count >= g_best_solution) return;
+
+    // Base case: All pieces placed
+    if (current_piece_idx >= g_count_ref) {
+        if (bin_count < g_best_solution) {
+            g_best_solution = bin_count;
+        }
+        return;
+    }
+
+    // Pruning 2: Theoretical Lower Bound
+    // Sum of remaining pieces
+    double remaining_sum = 0;
+    for (int i = current_piece_idx; i < g_count_ref; i++) {
+        remaining_sum += (g_pieces_ref[i] + g_slice_ref);
+    }
+    
+    // Calculate total free space in current bins
+    double current_free_space = 0;
+    for (int i = 0; i < bin_count; i++) {
+        current_free_space += current_bins[i]; // current_bins stores remaining space
+    }
+    
+    double needed_volume = remaining_sum - current_free_space;
+    int min_additional = 0;
+    if (needed_volume > 0) {
+        min_additional = (int)ceil(needed_volume / g_bar_len_ref);
+    }
+    
+    if (bin_count + min_additional >= g_best_solution) return;
+
+    double piece_size = g_pieces_ref[current_piece_idx] + g_slice_ref;
+
+    // Try to place into existing bins
+    for (int i = 0; i < bin_count; i++) {
+        if (current_bins[i] >= piece_size) {
+            current_bins[i] -= piece_size;
+            dfs_bnb(current_piece_idx + 1, current_bins, bin_count);
+            current_bins[i] += piece_size; // Backtrack
+            
+            if (g_best_solution <= bin_count) return; // Pruned by deeper recursion
+        }
+    }
+
+    // Try to place into a new bin
+    if (bin_count + 1 < g_best_solution) {
+        current_bins[bin_count] = g_bar_len_ref - piece_size;
+        dfs_bnb(current_piece_idx + 1, current_bins, bin_count + 1);
+    }
+}
+
 int calculate_bars_for_group(double* pieces, int count, double bar_length, double slice_val) {
     if (count == 0) return 0;
+
+    // Sort Descending
     qsort(pieces, count, sizeof(double), sort_desc);
-    if (count > 18) return greedy_bin_packing(pieces, count, bar_length, slice_val);
-    memo_count = 0;
-    double empty[MAX_BARS];
-    return helper(pieces, count, 0, empty, 0, bar_length, slice_val);
+
+    // Initial Solution: Greedy
+    int greedy_res = greedy_bin_packing(pieces, count, bar_length, slice_val);
+    
+    // Threshold decision for Super Fast performance
+    if (count > 40) {
+        return greedy_res;
+    }
+
+    // Setup for Branch and Bound
+    g_best_solution = greedy_res;
+    g_pieces_ref = pieces;
+    g_count_ref = count;
+    g_bar_len_ref = bar_length;
+    g_slice_ref = slice_val;
+
+    double bins[100]; 
+    dfs_bnb(0, bins, 0);
+
+    return g_best_solution;
 }
 
 int calculate_materials(Opening* openings, int opening_count, Bar* result_bars, double default_bar_length) {
