@@ -38,6 +38,7 @@ typedef struct {
     CodeEntry codes[MAX_CODE_ENTRIES];
     int code_count;
     double bar_length;
+    char calculation_method[32];
 } Bar;
 
 typedef struct {

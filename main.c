@@ -161,8 +161,8 @@ void ShowMaterials() {
 
     for (int i = 0; i < bar_count; i++) {
         char line[1024];
-        sprintf(line, "%d Barra(s) de %s %s %s [L=%.0f] Codes: ", 
-                bars[i].quantity, bars[i].name, bars[i].serie, bars[i].color, bars[i].bar_length);
+        sprintf(line, "%d Barra(s) de %s %s %s [L=%.0f, Method:%s] Codes: ", 
+                bars[i].quantity, bars[i].name, bars[i].serie, bars[i].color, bars[i].bar_length, bars[i].calculation_method);
         strcat(result_text, line);
         
         for (int j = 0; j < bars[i].code_count; j++) {
@@ -214,8 +214,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         case WM_CREATE: {
             hBrushBack = CreateSolidBrush(RGB(30, 30, 30));
             hBrushEdit = CreateSolidBrush(RGB(45, 45, 45));
-            hFont = CreateFont(18, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Segoe UI");
-            hFontBold = CreateFont(18, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Segoe UI");
+            hFont = CreateFont(-16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Segoe UI");
+            hFontBold = CreateFont(-16, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Segoe UI");
             hFontTitle = CreateFont(28, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Segoe UI");
 
             HWND hTitle = CreateWindow("STATIC", "Frames", WS_VISIBLE | WS_CHILD | SS_CENTER, 0, 20, 800, 40, hwnd, NULL, NULL, NULL);
@@ -283,6 +283,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         }
         case WM_CTLCOLORSTATIC: {
             HDC hdcStatic = (HDC)wParam;
+            HWND hControl = (HWND)lParam;
+            if (hControl == hResults) {
+                SetTextColor(hdcStatic, RGB(255, 255, 255));
+                SetBkColor(hdcStatic, RGB(45, 45, 45));
+                SetBkMode(hdcStatic, OPAQUE);
+                return (INT_PTR)hBrushEdit;
+            }
             SetTextColor(hdcStatic, RGB(200, 200, 200));
             SetBkMode(hdcStatic, TRANSPARENT);
             return (INT_PTR)hBrushBack;
@@ -292,6 +299,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             HDC hdcEdit = (HDC)wParam;
             SetTextColor(hdcEdit, RGB(255, 255, 255));
             SetBkColor(hdcEdit, RGB(45, 45, 45));
+            SetBkMode(hdcEdit, OPAQUE);
             return (INT_PTR)hBrushEdit;
         }
         case WM_COMMAND: {

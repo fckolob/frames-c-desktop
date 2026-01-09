@@ -525,6 +525,18 @@ void dfs_bnb(int current_piece_idx, double* current_bins, int bin_count) {
 
     // Try to place into existing bins
     for (int i = 0; i < bin_count; i++) {
+        // Pruning 3: Symmetry Breaking
+        // If this bin has the same remaining space as a previous bin, skipping it 
+        // produces an identical search tree.
+        bool symmetric = false;
+        for (int k = 0; k < i; k++) {
+            if (fabs(current_bins[k] - current_bins[i]) < 0.001) {
+                symmetric = true;
+                break;
+            }
+        }
+        if (symmetric) continue;
+
         if (current_bins[i] >= piece_size) {
             current_bins[i] -= piece_size;
             dfs_bnb(current_piece_idx + 1, current_bins, bin_count);
@@ -541,7 +553,7 @@ void dfs_bnb(int current_piece_idx, double* current_bins, int bin_count) {
     }
 }
 
-int calculate_bars_for_group(double* pieces, int count, double bar_length, double slice_val) {
+int calculate_bars_for_group(double* pieces, int count, double bar_length, double slice_val, char* method_out) {
     if (count == 0) return 0;
 
     // Sort Descending
@@ -551,7 +563,8 @@ int calculate_bars_for_group(double* pieces, int count, double bar_length, doubl
     int greedy_res = greedy_bin_packing(pieces, count, bar_length, slice_val);
     
     // Threshold decision for Super Fast performance
-    if (count > 40) {
+    if (count > 60) {
+        strcpy(method_out, "Greedy");
         return greedy_res;
     }
 
@@ -565,6 +578,7 @@ int calculate_bars_for_group(double* pieces, int count, double bar_length, doubl
     double bins[100]; 
     dfs_bnb(0, bins, 0);
 
+    strcpy(method_out, "Optimal");
     return g_best_solution;
 }
 
@@ -629,7 +643,8 @@ int calculate_materials(Opening* openings, int opening_count, Bar* result_bars, 
 
     int result_count = 0;
     for (int i = 0; i < group_count; i++) {
-        int qty = calculate_bars_for_group(groups[i].pieces, groups[i].piece_count, groups[i].bar_length, 4.0);
+        char method[32] = "";
+        int qty = calculate_bars_for_group(groups[i].pieces, groups[i].piece_count, groups[i].bar_length, 4.0, method);
         if (qty > 0) {
             result_bars[result_count].quantity = qty;
             strncpy(result_bars[result_count].name, groups[i].spanish_name, 127);
@@ -638,6 +653,7 @@ int calculate_materials(Opening* openings, int opening_count, Bar* result_bars, 
             result_bars[result_count].code_count = groups[i].code_count;
             memcpy(result_bars[result_count].codes, groups[i].codes, sizeof(CodeEntry) * groups[i].code_count);
             result_bars[result_count].bar_length = groups[i].bar_length;
+            strncpy(result_bars[result_count].calculation_method, method, 31);
             result_count++;
         }
     }
