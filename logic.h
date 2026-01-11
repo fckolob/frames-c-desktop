@@ -39,6 +39,7 @@ typedef struct {
     int code_count;
     double bar_length;
     char calculation_method[32];
+    char cutting_map[12800];
 } Bar;
 
 typedef struct {

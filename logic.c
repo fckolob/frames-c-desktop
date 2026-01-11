@@ -461,27 +461,61 @@ int sort_desc(const void* a, const void* b) {
     return (fa < fb) - (fa > fb);
 }
 
+// Helper to format map
+void format_cutting_map(char* buffer, int count, double* pieces, int* assignments, int bin_count, double bar_length) {
+    buffer[0] = '\0';
+    for (int b = 0; b < bin_count; b++) {
+        char line[1024];
+        sprintf(line, "Barra %d: [", b+1);
+        strcat(buffer, line);
+        
+        bool first = true;
+        double used = 0;
+        for (int i = 0; i < count; i++) {
+            if (assignments[i] == b) {
+                if (!first) strcat(buffer, ", ");
+                sprintf(line, "%.0f", pieces[i]);
+                strcat(buffer, line);
+                used += pieces[i] + 4; // piece + cut
+                first = false;
+            }
+        }
+        sprintf(line, "] (Resto: %.0f)\r\n", bar_length - used + 4); // +4 because last cut doesn't waste? usually bar_length is raw. simple calc.
+        strcat(buffer, line);
+    }
+}
+
 // Branch and Bound / DFS Globals
 int g_best_solution = 999999;
 double* g_pieces_ref = NULL;
 int g_count_ref = 0;
 double g_bar_len_ref = 0;
 double g_slice_ref = 0;
+int g_best_assignments[1000];
+int g_current_assignments[1000];
 
-int greedy_bin_packing(double* pieces, int count, double bar_length, double slice_val) {
-    double bins[1000]; // Increased safely
+int greedy_bin_packing(double* pieces, int count, double bar_length, double slice_val, int* assignments_out) {
+    double bins[1000]; 
     int bin_count = 0;
+    
+    // Reset assignments
+    if (assignments_out) {
+        for(int i=0; i<count; i++) assignments_out[i] = -1;
+    }
+
     for (int i = 0; i < count; i++) {
         bool placed = false;
         double piece_size = pieces[i] + slice_val;
         for (int j = 0; j < bin_count; j++) {
             if (bins[j] >= piece_size) {
                 bins[j] -= piece_size;
+                if (assignments_out) assignments_out[i] = j;
                 placed = true;
                 break;
             }
         }
         if (!placed) {
+            if (assignments_out) assignments_out[i] = bin_count;
             bins[bin_count++] = bar_length - piece_size;
         }
     }
@@ -496,6 +530,8 @@ void dfs_bnb(int current_piece_idx, double* current_bins, int bin_count) {
     if (current_piece_idx >= g_count_ref) {
         if (bin_count < g_best_solution) {
             g_best_solution = bin_count;
+            // Save assignments
+            for(int i=0; i<g_count_ref; i++) g_best_assignments[i] = g_current_assignments[i];
         }
         return;
     }
@@ -526,8 +562,6 @@ void dfs_bnb(int current_piece_idx, double* current_bins, int bin_count) {
     // Try to place into existing bins
     for (int i = 0; i < bin_count; i++) {
         // Pruning 3: Symmetry Breaking
-        // If this bin has the same remaining space as a previous bin, skipping it 
-        // produces an identical search tree.
         bool symmetric = false;
         for (int k = 0; k < i; k++) {
             if (fabs(current_bins[k] - current_bins[i]) < 0.001) {
@@ -539,29 +573,36 @@ void dfs_bnb(int current_piece_idx, double* current_bins, int bin_count) {
 
         if (current_bins[i] >= piece_size) {
             current_bins[i] -= piece_size;
+            g_current_assignments[current_piece_idx] = i;
             dfs_bnb(current_piece_idx + 1, current_bins, bin_count);
             current_bins[i] += piece_size; // Backtrack
             
-            if (g_best_solution <= bin_count) return; // Pruned by deeper recursion
+            if (g_best_solution <= bin_count) return; 
         }
     }
 
     // Try to place into a new bin
     if (bin_count + 1 < g_best_solution) {
         current_bins[bin_count] = g_bar_len_ref - piece_size;
+        g_current_assignments[current_piece_idx] = bin_count;
         dfs_bnb(current_piece_idx + 1, current_bins, bin_count + 1);
     }
 }
 
-int calculate_bars_for_group(double* pieces, int count, double bar_length, double slice_val, char* method_out) {
+int calculate_bars_for_group(double* pieces, int count, double bar_length, double slice_val, char* method_out, char* map_out) {
     if (count == 0) return 0;
 
     // Sort Descending
     qsort(pieces, count, sizeof(double), sort_desc);
 
+    int assignments[1000];
+
     // Initial Solution: Greedy
-    int greedy_res = greedy_bin_packing(pieces, count, bar_length, slice_val);
+    int greedy_res = greedy_bin_packing(pieces, count, bar_length, slice_val, assignments);
     
+    // Default to greedy map
+    format_cutting_map(map_out, count, pieces, assignments, greedy_res, bar_length);
+
     // Threshold decision for Super Fast performance
     if (count > 60) {
         strcpy(method_out, "Greedy");
@@ -570,6 +611,9 @@ int calculate_bars_for_group(double* pieces, int count, double bar_length, doubl
 
     // Setup for Branch and Bound
     g_best_solution = greedy_res;
+    // Initialize best assignments with greedy result as baseline
+    for(int i=0; i<count; i++) g_best_assignments[i] = assignments[i];
+    
     g_pieces_ref = pieces;
     g_count_ref = count;
     g_bar_len_ref = bar_length;
@@ -578,7 +622,20 @@ int calculate_bars_for_group(double* pieces, int count, double bar_length, doubl
     double bins[100]; 
     dfs_bnb(0, bins, 0);
 
-    strcpy(method_out, "Optimal");
+    // If new solution found, update map
+    if (g_best_solution < greedy_res) {
+         format_cutting_map(map_out, count, pieces, g_best_assignments, g_best_solution, bar_length);
+         strcpy(method_out, "Optimal");
+    } else {
+         // Even if not better count, we could stick to greedy or use the found one. 
+         // Since we init g_best_assignments with greedy, we are safe.
+         // But logic above: if dfs_bnb doesn't improve, it might not populate g_best_assignments? 
+         // Actually, I added logic: if (bin_count < g_best_solution) update.
+         // If equal, it won't update. So we keep greedy assignments if count is same.
+         strcpy(method_out, "Optimal (Greedy Fallback)");
+         if (greedy_res == g_best_solution) strcpy(method_out, "Optimal");
+    }
+
     return g_best_solution;
 }
 
@@ -644,7 +701,8 @@ int calculate_materials(Opening* openings, int opening_count, Bar* result_bars, 
     int result_count = 0;
     for (int i = 0; i < group_count; i++) {
         char method[32] = "";
-        int qty = calculate_bars_for_group(groups[i].pieces, groups[i].piece_count, groups[i].bar_length, 4.0, method);
+        char map[12800] = "";
+        int qty = calculate_bars_for_group(groups[i].pieces, groups[i].piece_count, groups[i].bar_length, 4.0, method, map);
         if (qty > 0) {
             result_bars[result_count].quantity = qty;
             strncpy(result_bars[result_count].name, groups[i].spanish_name, 127);
@@ -654,6 +712,7 @@ int calculate_materials(Opening* openings, int opening_count, Bar* result_bars, 
             memcpy(result_bars[result_count].codes, groups[i].codes, sizeof(CodeEntry) * groups[i].code_count);
             result_bars[result_count].bar_length = groups[i].bar_length;
             strncpy(result_bars[result_count].calculation_method, method, 31);
+            strncpy(result_bars[result_count].cutting_map, map, 12799);
             result_count++;
         }
     }

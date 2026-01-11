@@ -169,6 +169,8 @@ void ShowMaterials() {
             sprintf(line, "%s=%s ", bars[i].codes[j].key, bars[i].codes[j].value);
             strcat(result_text, line);
         }
+        strcat(result_text, "\r\n");
+        strcat(result_text, bars[i].cutting_map);
         strcat(result_text, "\r\n\r\n");
     }
 
