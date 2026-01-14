@@ -480,7 +480,7 @@ void format_cutting_map(char* buffer, int count, double* pieces, int* assignment
                 first = false;
             }
         }
-        sprintf(line, "] (Resto: %.0f)\r\n", bar_length - used + 4); // +4 because last cut doesn't waste? usually bar_length is raw. simple calc.
+        sprintf(line, "] (Resto: %.0f)\r\n", bar_length - used); // Removed +4 to correctly reflect remaining usable stock
         strcat(buffer, line);
     }
 }

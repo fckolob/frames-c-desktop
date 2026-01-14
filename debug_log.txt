@@ -103,3 +103,9 @@ Common controls initialized
 Class registered
 Window created
 Window shown
+App Starting...
+Common controls initialized
+Class registered
+Window created
+Window shown
+App Exiting normally
