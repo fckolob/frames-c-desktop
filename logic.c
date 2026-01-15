@@ -43,7 +43,7 @@ void calculate_pieces(Opening* op) {
     double h = op->height;
     int q = op->quantity;
     op->frame_count = 0;
-    op->glass_info[0] = '\0';
+    op->frame_count = 0;
 
     if (strcmp(op->serie, "s20") == 0) {
         init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Frame", "Horizontal de Marco", op->color, w - 25, q * 2);
@@ -95,7 +95,10 @@ void calculate_pieces(Opening* op) {
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 0213");
         op->frame_count++;
 
-        sprintf(op->glass_info, "Ancho de Vidrio = %.1f\nAlto de Vidrio = %.1f\nCantidad de Vidrios = %d\n", w / 2.0 - 58, h - 112, q * 2);
+        op->glass.is_complex = false;
+        op->glass.width_central = w / 2.0 - 58;
+        op->glass.height = h - 112;
+        op->glass.quantity_central = q * 2;
     }
     else if (strcmp(op->serie, "s25") == 0) {
         init_frame(&op->frames[op->frame_count], op->serie, "Inferior Frame", "Inferior de Marco", op->color, w - 51, q);
@@ -167,9 +170,15 @@ void calculate_pieces(Opening* op) {
             add_code(&op->frames[op->frame_count], "juan", "4590");
             op->frame_count++;
 
-            sprintf(op->glass_info, "Ancho de Vidrio = %.1f\nAlto de Vidrio = %.1f\nCantidad de Vidrios = %d\n", w / 2.0 - 111, h - 168, q * 2);
+            op->glass.is_complex = false;
+            op->glass.width_central = w / 2.0 - 111;
+            op->glass.height = h - 168;
+            op->glass.quantity_central = q * 2;
         } else {
-            sprintf(op->glass_info, "Ancho de Vidrio = %.1f\nAlto de Vidrio = %.1f\nCantidad de Vidrios = %d\n", w / 2.0 - 80, h - 137, q * 2);
+            op->glass.is_complex = false;
+             op->glass.width_central = w / 2.0 - 80;
+            op->glass.height = h - 137;
+            op->glass.quantity_central = q * 2;
         }
     }
     else if (strcmp(op->serie, "s25TripleRiel") == 0) {
@@ -238,9 +247,15 @@ void calculate_pieces(Opening* op) {
             add_code(&op->frames[op->frame_count], "juan", "4590");
             op->frame_count++;
 
-            sprintf(op->glass_info, "Ancho de Vidrio = %.1f\nAlto de Vidrio = %.1f\nCantidad de Vidrios = %d\n", w / 3.0 - 92, h - 168, q * 3);
+            op->glass.is_complex = false;
+            op->glass.width_central = w / 3.0 - 92;
+            op->glass.height = h - 168;
+            op->glass.quantity_central = q * 3;
         } else {
-            sprintf(op->glass_info, "Ancho de Vidrio = %.1f\nAlto de Vidrio = %.1f\nCantidad de Vidrios = %d\n", w / 3.0 - 60, h - 137, q * 3);
+             op->glass.is_complex = false;
+            op->glass.width_central = w / 3.0 - 60;
+            op->glass.height = h - 137;
+            op->glass.quantity_central = q * 3;
         }
     }
     else if (strcmp(op->serie, "probbaCorrediza") == 0) {
@@ -265,7 +280,10 @@ void calculate_pieces(Opening* op) {
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90026");
             op->frame_count++;
 
-            sprintf(op->glass_info, "Ancho de Vidrio = %.1f\nAlto de Vidrio = %.1f\nCantidad de Vidrios = %d\n", w / 2.0 - 86, h - 165, q * 2);
+            op->glass.is_complex = false;
+            op->glass.width_central = w / 2.0 - 86;
+            op->glass.height = h - 165;
+            op->glass.quantity_central = q * 2;
         } else {
             init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para Vidrio Simple", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90027");
@@ -279,7 +297,10 @@ void calculate_pieces(Opening* op) {
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90025");
             op->frame_count++;
 
-            sprintf(op->glass_info, "Ancho de Vidrio = %.1f\nAlto de Vidrio = %.1f\nCantidad de Vidrios = %d\n", w / 2.0 - 94, h - 172, q * 2);
+            op->glass.is_complex = false;
+            op->glass.width_central = w / 2.0 - 94;
+            op->glass.height = h - 172;
+            op->glass.quantity_central = q * 2;
         }
 
         init_complex_frame(&op->frames[op->frame_count], op->serie, "Screen Shash", "Hoja de Mosquitero", op->color, w / 2.0 + 11, q * 2, h - 62, q * 2);
@@ -316,7 +337,12 @@ void calculate_pieces(Opening* op) {
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90026");
             op->frame_count++;
 
-            sprintf(op->glass_info, "Ancho H. Central = %.1f\nAncho H. Laterales = %.1f\nAlto = %.1f\nCant Laterales = %d\nCant Central = %d\n", w / 3.0 - 61, w / 3.0 - 70, h - 165, q * 2, q);
+            op->glass.is_complex = true;
+            op->glass.width_central = w / 3.0 - 61;
+            op->glass.width_lateral = w / 3.0 - 70;
+            op->glass.height = h - 165;
+            op->glass.quantity_central = q;
+            op->glass.quantity_lateral = q * 2;
         } else {
             init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para Vidrio Simple", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90027");
@@ -334,7 +360,12 @@ void calculate_pieces(Opening* op) {
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90025");
             op->frame_count++;
 
-            sprintf(op->glass_info, "Ancho H. Central = %.1f\nAncho H. Laterales = %.1f\nAlto = %.1f\nCant Laterales = %d\nCant Central = %d\n", w / 3.0 - 68, w / 3.0 - 77, h - 173, q * 2, q);
+             op->glass.is_complex = true;
+            op->glass.width_central = w / 3.0 - 68;
+            op->glass.width_lateral = w / 3.0 - 77;
+            op->glass.height = h - 173;
+            op->glass.quantity_central = q;
+            op->glass.quantity_lateral = q * 2;
         }
         init_complex_frame(&op->frames[op->frame_count], op->serie, "Screen Shash", "Hoja de Mosquitero", op->color, w / 3.0 + 11, q * 2, h - 62, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 41043");
@@ -370,7 +401,13 @@ void calculate_pieces(Opening* op) {
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45032");
             op->frame_count++;
 
-            sprintf(op->glass_info, "Ancho H. Central = %.1f\nAncho H. Laterales = %.1f\nAlto = %.1f\nCant Laterales = %d\nCant Central = %d\n", w / 4.0 - 52, w / 4.0 - 61, h - 165, q * 2, q * 2);
+             // Glass DVH
+            op->glass.is_complex = true;
+            op->glass.width_central = w / 4.0 - 52;
+            op->glass.width_lateral = w / 4.0 - 61;
+            op->glass.height = h - 165;
+            op->glass.quantity_central = q * 2;
+            op->glass.quantity_lateral = q * 2;
         } else {
             init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para Vidrio Simple gala", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93007");
@@ -388,7 +425,13 @@ void calculate_pieces(Opening* op) {
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93005");
             op->frame_count++;
 
-            sprintf(op->glass_info, "Ancho H. Central = %.1f\nAncho H. Laterales = %.1f\nAlto = %.1f\nCant Laterales = %d\nCant Central = %d\n", w / 4.0 - 59, w / 4.0 - 67, h - 171, q * 2, q * 2);
+            // Glass Simple
+            op->glass.is_complex = true;
+            op->glass.width_central = w / 4.0 - 59;
+            op->glass.width_lateral = w / 4.0 - 67;
+            op->glass.height = h - 171;
+            op->glass.quantity_central = q * 2;
+            op->glass.quantity_lateral = q * 2;
         }
         init_complex_frame(&op->frames[op->frame_count], op->serie, "Screen Shash", "Hoja de Mosquitero", op->color, w / 4.0 + 11, q * 2, h - 62, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 41043");
@@ -424,7 +467,13 @@ void calculate_pieces(Opening* op) {
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45032");
             op->frame_count++;
 
-            sprintf(op->glass_info, "Ancho H. Central = %.1f\nAncho H. Laterales = %.1f\nAlto = %.1f\nCant Laterales = %d\nCant Central = %d\n", w / 3.0 - 61, w / 3.0 - 70, h - 165, q * 2, q);
+             // Glass DVH
+            op->glass.is_complex = true;
+            op->glass.width_central = w / 3.0 - 61;
+            op->glass.width_lateral = w / 3.0 - 70;
+            op->glass.height = h - 165;
+            op->glass.quantity_central = q;
+            op->glass.quantity_lateral = q * 2;
         } else {
             init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para Vidrio Simple gala", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93007");
@@ -442,7 +491,13 @@ void calculate_pieces(Opening* op) {
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93005");
             op->frame_count++;
 
-            sprintf(op->glass_info, "Ancho H. Central = %.1f\nAncho H. Laterales = %.1f\nAlto = %.1f\nCant Laterales = %d\nCant Central = %d\n", w / 3.0 - 68, w / 3.0 - 77, h - 173, q * 2, q);
+            // Glass Simple
+            op->glass.is_complex = true;
+            op->glass.width_central = w / 3.0 - 68;
+            op->glass.width_lateral = w / 3.0 - 77;
+            op->glass.height = h - 173;
+            op->glass.quantity_central = q;
+            op->glass.quantity_lateral = q * 2;
         }
         init_complex_frame(&op->frames[op->frame_count], op->serie, "Screen Shash", "Hoja de Mosquitero", op->color, w / 3.0 + 11, q * 2, h - 62, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 41043");
@@ -451,6 +506,32 @@ void calculate_pieces(Opening* op) {
         init_frame(&op->frames[op->frame_count], op->serie, "Screen Guide", "Guía de Mosquitero", op->color, w - 5, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93074");
         op->frame_count++;
+    }
+}
+
+void get_glass_description(Opening* op, char* buffer) {
+    if (op->glass.is_complex) {
+        sprintf(buffer, 
+            "Ancho de Vidrio Hoja Central = %.1f\r\n"
+            "Ancho de Vidrios Hojas Laterales = %.1f\r\n"
+            "Alto de Vidrios = %.1f\r\n"
+            "Cantidad de Vidrios Laterales = %d\r\n"
+            "Cantidad de vidrios centrales = %d",
+            op->glass.width_central,
+            op->glass.width_lateral,
+            op->glass.height,
+            op->glass.quantity_lateral,
+            op->glass.quantity_central
+        );
+    } else {
+        sprintf(buffer, 
+            "Ancho de Vidrio = %.1f\r\n"
+            "Alto de Vidrio = %.1f\r\n"
+            "Cantidad de Vidrios = %d",
+            op->glass.width_central, // Using width_central as main width for simple cases
+            op->glass.height,
+            op->glass.quantity_central // Using quantity_central as main quantity
+        );
     }
 }
 

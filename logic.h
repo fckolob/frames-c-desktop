@@ -43,6 +43,15 @@ typedef struct {
 } Bar;
 
 typedef struct {
+    double width_lateral;
+    double width_central;
+    double height;
+    int quantity_lateral;
+    int quantity_central;
+    bool is_complex; // True if uses lateral/central distinct widths
+} Glass;
+
+typedef struct {
     double width;
     double height;
     char serie[64];
@@ -53,11 +62,12 @@ typedef struct {
     Frame frames[MAX_FRAMES_PER_OPENING];
     int frame_count;
     
-    // Glass info for report
-    char glass_info[1024];
+    // Glass info structured
+    Glass glass;
 } Opening;
 
 void calculate_pieces(Opening* opening);
 int calculate_materials(Opening* openings, int opening_count, Bar* result_bars, double default_bar_length);
+void get_glass_description(Opening* op, char* buffer);
 
 #endif // LOGIC_H

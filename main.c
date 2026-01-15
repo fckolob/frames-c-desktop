@@ -139,7 +139,9 @@ void ShowProduction() {
             }
             strcat(result_text, line);
         }
-        strcat(result_text, openings[i].glass_info);
+        char glass_desc[1024];
+        get_glass_description(&openings[i], glass_desc);
+        strcat(result_text, glass_desc);
         strcat(result_text, "\r\n");
     }
 
