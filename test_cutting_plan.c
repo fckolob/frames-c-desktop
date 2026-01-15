@@ -7,7 +7,7 @@ int main() {
     
     double pieces[] = {1500, 1500, 1500, 1000, 1000, 500};
     int count = 6;
-    double bar_len = 5900;
+    double bar_len = 5950;
     
     char method[32];
     char map[12800];

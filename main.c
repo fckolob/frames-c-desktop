@@ -149,7 +149,7 @@ void ShowProduction() {
 
 void ShowMaterials() {
     Bar bars[MAX_BARS];
-    int bar_count = calculate_materials(openings, opening_count, bars, 5900.0);
+    int bar_count = calculate_materials(openings, opening_count, bars, 5950.0);
 
     char* result_text = malloc(128000);
     if (!result_text) return;
