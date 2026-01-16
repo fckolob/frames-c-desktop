@@ -233,8 +233,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
             CreateWindow("STATIC", "Serie:", WS_VISIBLE | WS_CHILD, x1, y, 150, 20, hwnd, NULL, NULL, NULL);
             hSerie = CreateWindow("COMBOBOX", "", WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST | WS_VSCROLL, x1, y+25, 180, 200, hwnd, (HMENU)ID_CB_SERIE, NULL, NULL);
-            const char* series[] = {"s20", "s25", "s25TripleRiel", "probbaCorrediza", "probbaCorredizaTripleRiel", "galaCorredizaTripleRiel", "galaCorredizaCuatroRieles"};
-            for(int i=0; i<7; i++) SendMessage(hSerie, CB_ADDSTRING, 0, (LPARAM)series[i]);
+            const char* series[] = {"s20", "s25", "s25TripleRiel", "probbaCorrediza", "probbaCorredizaTripleRiel", "galaCorredizaTripleRiel", "galaCorredizaCuatroRieles", "galaCorrediza"};
+            for(int i=0; i<8; i++) SendMessage(hSerie, CB_ADDSTRING, 0, (LPARAM)series[i]);
             SendMessage(hSerie, CB_SETCURSEL, 0, 0);
 
             CreateWindow("STATIC", "Color:", WS_VISIBLE | WS_CHILD, x2, y, 150, 20, hwnd, NULL, NULL, NULL);

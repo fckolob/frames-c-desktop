@@ -303,11 +303,11 @@ void calculate_pieces(Opening* op) {
             op->glass.quantity_central = q * 2;
         }
 
-        init_complex_frame(&op->frames[op->frame_count], op->serie, "Screen Shash", "Hoja de Mosquitero", op->color, w / 2.0 + 11, q * 2, h - 62, q * 2);
+        init_complex_frame(&op->frames[op->frame_count], "probbaCorrediza", "Screen Shash", "Hoja de Mosquitero", op->color, w / 2.0 + 11, q * 2, h - 62, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 41043");
         op->frame_count++;
 
-        init_frame(&op->frames[op->frame_count], op->serie, "Screen Guide", "Guía de Mosquitero", op->color, w - 5, q * 2);
+        init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Screen Guide", "Guía de Mosquitero", op->color, w - 5, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93074");
         op->frame_count++;
     }
@@ -367,11 +367,11 @@ void calculate_pieces(Opening* op) {
             op->glass.quantity_central = q;
             op->glass.quantity_lateral = q * 2;
         }
-        init_complex_frame(&op->frames[op->frame_count], op->serie, "Screen Shash", "Hoja de Mosquitero", op->color, w / 3.0 + 11, q * 2, h - 62, q * 2);
+        init_complex_frame(&op->frames[op->frame_count], "probbaCorrediza", "Screen Shash", "Hoja de Mosquitero", op->color, w / 3.0 + 11, q * 2, h - 62, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 41043");
         op->frame_count++;
 
-        init_frame(&op->frames[op->frame_count], op->serie, "Screen Guide", "Guía de Mosquitero", op->color, w - 5, q * 2);
+        init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Screen Guide", "Guía de Mosquitero", op->color, w - 5, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93074");
         op->frame_count++;
     }
@@ -433,11 +433,11 @@ void calculate_pieces(Opening* op) {
             op->glass.quantity_central = q * 2;
             op->glass.quantity_lateral = q * 2;
         }
-        init_complex_frame(&op->frames[op->frame_count], op->serie, "Screen Shash", "Hoja de Mosquitero", op->color, w / 4.0 + 11, q * 2, h - 62, q * 2);
+        init_complex_frame(&op->frames[op->frame_count], "probbaCorrediza", "Screen Shash", "Hoja de Mosquitero", op->color, w / 4.0 + 11, q * 2, h - 62, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 41043");
         op->frame_count++;
 
-        init_frame(&op->frames[op->frame_count], op->serie, "Screen Guide", "Guía de Mosquitero", op->color, w - 5, q * 2);
+        init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Screen Guide", "Guía de Mosquitero", op->color, w - 5, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93074");
         op->frame_count++;
     }
@@ -499,11 +499,64 @@ void calculate_pieces(Opening* op) {
             op->glass.quantity_central = q;
             op->glass.quantity_lateral = q * 2;
         }
-        init_complex_frame(&op->frames[op->frame_count], op->serie, "Screen Shash", "Hoja de Mosquitero", op->color, w / 3.0 + 11, q * 2, h - 62, q * 2);
+        init_complex_frame(&op->frames[op->frame_count], "probbaCorrediza", "Screen Shash", "Hoja de Mosquitero", op->color, w / 3.0 + 11, q * 2, h - 62, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 41043");
         op->frame_count++;
 
-        init_frame(&op->frames[op->frame_count], op->serie, "Screen Guide", "Guía de Mosquitero", op->color, w - 5, q * 2);
+        init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Screen Guide", "Guía de Mosquitero", op->color, w - 5, q * 2);
+        add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93074");
+        op->frame_count++;
+    }
+    else if (strcmp(op->serie, "galaCorrediza") == 0) {
+        init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Horizontal Frame", "Horizontal de Marco", op->color, w - 36, q * 2);
+        add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93150");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Vertical Frame", "Lateral de Marco", op->color, h, q * 2);
+        add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90021");
+        op->frame_count++;
+
+        if (op->dvh) {
+            init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para DVH gala", op->color, h - 65, q * 2);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45031");
+            op->frame_count++;
+
+            init_frame(&op->frames[op->frame_count], op->serie, "Central Shash", "Enganche para DVH gala", op->color, h - 65, q * 2);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45033");
+            op->frame_count++;
+
+            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash", "Horizontal de Hoja para DVH gala", op->color, w / 2.0 - 23, q * 4);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45032");
+            op->frame_count++;
+
+            op->glass.is_complex = false;
+            op->glass.width_central = w / 2.0 - 86;
+            op->glass.height = h - 165;
+            op->glass.quantity_central = q * 2;
+        } else {
+            init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para Vidrio Simple gala", op->color, h - 65, q * 2);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93007");
+            op->frame_count++;
+
+            init_frame(&op->frames[op->frame_count], op->serie, "Central Shash", "Enganche para Vidrio Simple gala", op->color, h - 65, q * 2);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93009");
+            op->frame_count++;
+
+            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash", "Horizontal de Hoja para Vidrio Simple gala", op->color, w / 2.0 - 23, q * 4);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93005");
+            op->frame_count++;
+
+            op->glass.is_complex = false;
+            op->glass.width_central = w / 2.0 - 94;
+            op->glass.height = h - 172;
+            op->glass.quantity_central = q * 2;
+        }
+
+        init_complex_frame(&op->frames[op->frame_count], "probbaCorrediza", "Screen Shash", "Hoja de Mosquitero", op->color, w / 2.0 + 11, q * 2, h - 62, q * 2);
+        add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 41043");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Screen Guide", "Guía de Mosquitero", op->color, w - 5, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93074");
         op->frame_count++;
     }
@@ -743,7 +796,9 @@ int calculate_materials(Opening* openings, int opening_count, Bar* result_bars, 
             // Group by color and codes
             int found = -1;
             for (int k = 0; k < group_count; k++) {
-                if (strcmp(groups[k].color, f->color) == 0 && groups[k].code_count == f->code_count) {
+                if (strcmp(groups[k].color, f->color) == 0 && 
+                    strcmp(groups[k].serie, f->serie) == 0 && 
+                    groups[k].code_count == f->code_count) {
                     bool match = true;
                     for (int m = 0; m < f->code_count; m++) {
                         bool code_found = false;
