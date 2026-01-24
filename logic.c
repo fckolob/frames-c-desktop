@@ -321,19 +321,19 @@ void calculate_pieces(Opening* op) {
         op->frame_count++;
 
         if (op->dvh) {
-            init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para DVH", op->color, h - 65, q * 2);
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Lateral Shash", "Lateral de Hoja para DVH", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90031");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Central Shash", "Enganche para DVH", op->color, h - 65, q * 4);
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Central Shash", "Enganche para DVH", op->color, h - 65, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90030");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Lateral", "Horizontal de Hoja para DVH (Hojas Laterales)", op->color, w / 3.0 - 7, q * 4);
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Horizontal Shash Lateral", "Horizontal de Hoja para DVH (Hojas Laterales)", op->color, w / 3.0 - 7, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90026");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Central", "Horizontal de Hoja para DVH (Hoja Central)", op->color, w / 3.0 + 12, q * 2);
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Horizontal Shash Central", "Horizontal de Hoja para DVH (Hoja Central)", op->color, w / 3.0 + 12, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90026");
             op->frame_count++;
 
@@ -344,19 +344,19 @@ void calculate_pieces(Opening* op) {
             op->glass.quantity_central = q;
             op->glass.quantity_lateral = q * 2;
         } else {
-            init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para Vidrio Simple", op->color, h - 65, q * 2);
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Lateral Shash", "Lateral de Hoja para Vidrio Simple", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90027");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Central Shash", "Enganche para Vidrio Simple", op->color, h - 65, q * 4);
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Central Shash", "Enganche para Vidrio Simple", op->color, h - 65, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90028");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Lateral", "Horizontal de Hoja para Vidrio Simple (Hojas Laterales)", op->color, w / 3.0 - 7, q * 4);
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Horizontal Shash Lateral", "Horizontal de Hoja para Vidrio Simple (Hojas Laterales)", op->color, w / 3.0 - 7, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90025");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Central", "Horizontal de Hoja para Vidrio Simple (Hoja Central)", op->color, w / 3.0 + 12, q * 2);
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Horizontal Shash Central", "Horizontal de Hoja para Vidrio Simple (Hoja Central)", op->color, w / 3.0 + 12, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90025");
             op->frame_count++;
 
@@ -385,19 +385,19 @@ void calculate_pieces(Opening* op) {
         op->frame_count++;
 
         if (op->dvh) {
-            init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para DVH gala", op->color, h - 65, q * 2);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Lateral Shash", "Lateral de Hoja para DVH gala", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45031");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Central Shash", "Enganche para DVH gala", op->color, h - 65, q * 6);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Central Shash", "Enganche para DVH gala", op->color, h - 65, q * 6);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45033");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Lateral", "Horizontal de Hoja para DVH gala (hojas laterales)", op->color, w / 4.0 + 2, q * 4);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Horizontal Shash Lateral", "Horizontal de Hoja para DVH gala (hojas laterales)", op->color, w / 4.0 + 2, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45032");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Central", "Horizontal de Hoja para DVH gala (hoja central)", op->color, w / 4.0 + 21, q * 4);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Horizontal Shash Central", "Horizontal de Hoja para DVH gala (hoja central)", op->color, w / 4.0 + 21, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45032");
             op->frame_count++;
 
@@ -409,19 +409,19 @@ void calculate_pieces(Opening* op) {
             op->glass.quantity_central = q * 2;
             op->glass.quantity_lateral = q * 2;
         } else {
-            init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para Vidrio Simple gala", op->color, h - 65, q * 2);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Lateral Shash", "Lateral de Hoja para Vidrio Simple gala", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93007");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Central Shash", "Enganche para Vidrio Simple gala", op->color, h - 65, q * 6);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Central Shash", "Enganche para Vidrio Simple gala", op->color, h - 65, q * 6);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93009");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Lateral", "Horizontal de Hoja para Vidrio Simple (Hojas Laterales) gala", op->color, w / 4.0 + 2, q * 4);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Horizontal Shash Lateral", "Horizontal de Hoja para Vidrio Simple (Hojas Laterales) gala", op->color, w / 4.0 + 2, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93005");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Central", "Horizontal de Hoja para Vidrio Simple (Hoja Central) gala", op->color, w / 4.0 + 21, q * 4);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Horizontal Shash Central", "Horizontal de Hoja para Vidrio Simple (Hoja Central) gala", op->color, w / 4.0 + 21, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93005");
             op->frame_count++;
 
@@ -451,19 +451,19 @@ void calculate_pieces(Opening* op) {
         op->frame_count++;
 
         if (op->dvh) {
-            init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para DVH gala", op->color, h - 65, q * 2);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Lateral Shash", "Lateral de Hoja para DVH gala", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45031");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Central Shash", "Enganche para DVH gala", op->color, h - 65, q * 4);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Central Shash", "Enganche para DVH gala", op->color, h - 65, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45033");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Lateral", "Horizontal de Hoja para DVH gala (hojas laterales)", op->color, w / 3.0 - 7, q * 4);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Horizontal Shash Lateral", "Horizontal de Hoja para DVH gala (hojas laterales)", op->color, w / 3.0 - 7, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45032");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Central", "Horizontal de Hoja para DVH gala (hoja central)", op->color, w / 3.0 + 12, q * 2);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Horizontal Shash Central", "Horizontal de Hoja para DVH gala (hoja central)", op->color, w / 3.0 + 12, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45032");
             op->frame_count++;
 
@@ -475,19 +475,19 @@ void calculate_pieces(Opening* op) {
             op->glass.quantity_central = q;
             op->glass.quantity_lateral = q * 2;
         } else {
-            init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para Vidrio Simple gala", op->color, h - 65, q * 2);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Lateral Shash", "Lateral de Hoja para Vidrio Simple gala", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93007");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Central Shash", "Enganche para Vidrio Simple gala", op->color, h - 65, q * 4);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Central Shash", "Enganche para Vidrio Simple gala", op->color, h - 65, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93009");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Lateral", "Horizontal de Hoja para Vidrio Simple (Hojas Laterales) gala", op->color, w / 3.0 - 7, q * 4);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Horizontal Shash Lateral", "Horizontal de Hoja para Vidrio Simple (Hojas Laterales) gala", op->color, w / 3.0 - 7, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93005");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Central", "Horizontal de Hoja para Vidrio Simple (Hoja Central) gala", op->color, w / 3.0 + 12, q * 2);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Horizontal Shash Central", "Horizontal de Hoja para Vidrio Simple (Hoja Central) gala", op->color, w / 3.0 + 12, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93005");
             op->frame_count++;
 
@@ -517,15 +517,15 @@ void calculate_pieces(Opening* op) {
         op->frame_count++;
 
         if (op->dvh) {
-            init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para DVH gala", op->color, h - 65, q * 2);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Lateral Shash", "Lateral de Hoja para DVH gala", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45031");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Central Shash", "Enganche para DVH gala", op->color, h - 65, q * 2);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Central Shash", "Enganche para DVH gala", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45033");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash", "Horizontal de Hoja para DVH gala", op->color, w / 2.0 - 23, q * 4);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Horizontal Shash", "Horizontal de Hoja para DVH gala", op->color, w / 2.0 - 23, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 45032");
             op->frame_count++;
 
@@ -534,15 +534,15 @@ void calculate_pieces(Opening* op) {
             op->glass.height = h - 165;
             op->glass.quantity_central = q * 2;
         } else {
-            init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja para Vidrio Simple gala", op->color, h - 65, q * 2);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Lateral Shash", "Lateral de Hoja para Vidrio Simple gala", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93007");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Central Shash", "Enganche para Vidrio Simple gala", op->color, h - 65, q * 2);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Central Shash", "Enganche para Vidrio Simple gala", op->color, h - 65, q * 2);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93009");
             op->frame_count++;
 
-            init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash", "Horizontal de Hoja para Vidrio Simple gala", op->color, w / 2.0 - 23, q * 4);
+            init_frame(&op->frames[op->frame_count], "galaCorrediza", "Horizontal Shash", "Horizontal de Hoja para Vidrio Simple gala", op->color, w / 2.0 - 23, q * 4);
             add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93005");
             op->frame_count++;
 
