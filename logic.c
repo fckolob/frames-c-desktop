@@ -375,6 +375,70 @@ void calculate_pieces(Opening* op) {
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93074");
         op->frame_count++;
     }
+    else if (strcmp(op->serie, "probbaCorredizaTresHojasEnDosRieles") == 0) {
+        init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Horizontal Frame", "Horizontal de Marco", op->color, w - 36, q * 2);
+        add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93150");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Vertical Frame", "Lateral de Marco", op->color, h, q * 2);
+        add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90021");
+        op->frame_count++;
+
+        if (op->dvh) {
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Lateral Shash", "Lateral de Hoja para DVH", op->color, h - 65, q * 2);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90031");
+            op->frame_count++;
+
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Central Shash", "Enganche para DVH", op->color, h - 65, q * 4);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90030");
+            op->frame_count++;
+
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Horizontal Shash Lateral", "Horizontal de Hoja para DVH (Hojas Laterales)", op->color, w / 4.0 - 11, q * 4);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90026");
+            op->frame_count++;
+
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Horizontal Shash Central", "Horizontal de Hoja para DVH (Hoja Central)", op->color, w / 2.0 + 21, q * 2);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90026");
+            op->frame_count++;
+
+            op->glass.is_complex = true;
+            op->glass.width_central = w / 2.0 - 53;
+            op->glass.width_lateral = w / 4.0 - 73;
+            op->glass.height = h - 165;
+            op->glass.quantity_central = q;
+            op->glass.quantity_lateral = q * 2;
+        } else {
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Lateral Shash", "Lateral de Hoja para Vidrio Simple", op->color, h - 65, q * 2);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90027");
+            op->frame_count++;
+
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Central Shash", "Enganche para Vidrio Simple", op->color, h - 65, q * 4);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90028");
+            op->frame_count++;
+
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Horizontal Shash Lateral", "Horizontal de Hoja para Vidrio Simple (Hojas Laterales)", op->color, w / 4.0 - 11, q * 4);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90025");
+            op->frame_count++;
+
+            init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Horizontal Shash Central", "Horizontal de Hoja para Vidrio Simple (Hoja Central)", op->color, w / 2.0 + 21, q * 2);
+            add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 90025");
+            op->frame_count++;
+
+             op->glass.is_complex = true;
+            op->glass.width_central = w / 2.0 - 60;
+            op->glass.width_lateral = w / 4.0 - 81;
+            op->glass.height = h - 173;
+            op->glass.quantity_central = q;
+            op->glass.quantity_lateral = q * 2;
+        }
+        init_complex_frame(&op->frames[op->frame_count], "probbaCorrediza", "Screen Shash", "Hoja de Mosquitero", op->color, w / 4.0 + 11, q * 4, h - 62, q * 4);
+        add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 41043");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], "probbaCorrediza", "Screen Guide", "Guía de Mosquitero", op->color, w - 5, q * 2);
+        add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93074");
+        op->frame_count++;
+    }
     else if (strcmp(op->serie, "galaCorredizaCuatroRieles") == 0) {
         init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Frame", "Horizontal de Marco cuatro Rieles", op->color, w - 36, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93067");
