@@ -150,11 +150,18 @@ void ShowProduction() {
 }
 
 void ShowMaterials() {
-    Bar bars[MAX_BARS];
+    Bar* bars = malloc(sizeof(Bar) * MAX_BARS);
+    if (!bars) {
+        MessageBox(NULL, "Memory allocation failed for materials.", "Error", MB_ICONERROR);
+        return;
+    }
     int bar_count = calculate_materials(openings, opening_count, bars, 5950.0);
 
-    char* result_text = malloc(128000);
-    if (!result_text) return;
+    char* result_text = malloc(512000);
+    if (!result_text) {
+        free(bars);
+        return;
+    }
     strcpy(result_text, "Materials:\r\n\r\n");
     
     if (bar_count == 0) {
@@ -176,8 +183,97 @@ void ShowMaterials() {
         strcat(result_text, "\r\n\r\n");
     }
 
+    // Aggregate Accessories
+    ReporteDeAccesorios total;
+    memset(&total, 0, sizeof(ReporteDeAccesorios));
+    bool has_any = false;
+
+    for (int i = 0; i < opening_count; i++) {
+        if (openings[i].accesorios.has_accessories) {
+            has_any = true;
+            if (openings[i].accesorios.cierresLaterales.cantidad > 0) {
+                strcpy(total.cierresLaterales.codigo, openings[i].accesorios.cierresLaterales.codigo);
+                strcpy(total.cierresLaterales.nombre, openings[i].accesorios.cierresLaterales.nombre);
+                strcpy(total.cierresLaterales.unidad, openings[i].accesorios.cierresLaterales.unidad);
+                total.cierresLaterales.cantidad += openings[i].accesorios.cierresLaterales.cantidad;
+            }
+            if (openings[i].accesorios.ruedasParaHojas.cantidad > 0) {
+                strcpy(total.ruedasParaHojas.codigo, openings[i].accesorios.ruedasParaHojas.codigo);
+                strcpy(total.ruedasParaHojas.nombre, openings[i].accesorios.ruedasParaHojas.nombre);
+                strcpy(total.ruedasParaHojas.unidad, openings[i].accesorios.ruedasParaHojas.unidad);
+                total.ruedasParaHojas.cantidad += openings[i].accesorios.ruedasParaHojas.cantidad;
+            }
+            if (openings[i].accesorios.ruedasParaMosquitero.cantidad > 0) {
+                strcpy(total.ruedasParaMosquitero.codigo, openings[i].accesorios.ruedasParaMosquitero.codigo);
+                strcpy(total.ruedasParaMosquitero.nombre, openings[i].accesorios.ruedasParaMosquitero.nombre);
+                strcpy(total.ruedasParaMosquitero.unidad, openings[i].accesorios.ruedasParaMosquitero.unidad);
+                total.ruedasParaMosquitero.cantidad += openings[i].accesorios.ruedasParaMosquitero.cantidad;
+            }
+            if (openings[i].accesorios.tapaMatrizEnganche.cantidad > 0) {
+                strcpy(total.tapaMatrizEnganche.codigo, openings[i].accesorios.tapaMatrizEnganche.codigo);
+                strcpy(total.tapaMatrizEnganche.nombre, openings[i].accesorios.tapaMatrizEnganche.nombre);
+                strcpy(total.tapaMatrizEnganche.unidad, openings[i].accesorios.tapaMatrizEnganche.unidad);
+                total.tapaMatrizEnganche.cantidad += openings[i].accesorios.tapaMatrizEnganche.cantidad;
+            }
+            if (openings[i].accesorios.taponDeHermeticidadLateralesDeHoja.cantidad > 0) {
+                strcpy(total.taponDeHermeticidadLateralesDeHoja.codigo, openings[i].accesorios.taponDeHermeticidadLateralesDeHoja.codigo);
+                strcpy(total.taponDeHermeticidadLateralesDeHoja.nombre, openings[i].accesorios.taponDeHermeticidadLateralesDeHoja.nombre);
+                strcpy(total.taponDeHermeticidadLateralesDeHoja.unidad, openings[i].accesorios.taponDeHermeticidadLateralesDeHoja.unidad);
+                total.taponDeHermeticidadLateralesDeHoja.cantidad += openings[i].accesorios.taponDeHermeticidadLateralesDeHoja.cantidad;
+            }
+            if (openings[i].accesorios.dispositivosDeEstanqueidad.cantidad > 0) {
+                strcpy(total.dispositivosDeEstanqueidad.codigo, openings[i].accesorios.dispositivosDeEstanqueidad.codigo);
+                strcpy(total.dispositivosDeEstanqueidad.nombre, openings[i].accesorios.dispositivosDeEstanqueidad.nombre);
+                strcpy(total.dispositivosDeEstanqueidad.unidad, openings[i].accesorios.dispositivosDeEstanqueidad.unidad);
+                total.dispositivosDeEstanqueidad.cantidad += openings[i].accesorios.dispositivosDeEstanqueidad.cantidad;
+            }
+            if (openings[i].accesorios.felpilla.cantidad > 0) {
+                strcpy(total.felpilla.codigo, openings[i].accesorios.felpilla.codigo);
+                strcpy(total.felpilla.nombre, openings[i].accesorios.felpilla.nombre);
+                strcpy(total.felpilla.unidad, openings[i].accesorios.felpilla.unidad);
+                total.felpilla.cantidad += openings[i].accesorios.felpilla.cantidad;
+            }
+            if (openings[i].accesorios.martillos.cantidad > 0) {
+                strcpy(total.martillos.codigo, openings[i].accesorios.martillos.codigo);
+                strcpy(total.martillos.nombre, openings[i].accesorios.martillos.nombre);
+                strcpy(total.martillos.unidad, openings[i].accesorios.martillos.unidad);
+                total.martillos.cantidad += openings[i].accesorios.martillos.cantidad;
+            }
+            if (openings[i].accesorios.recibidoresDeCierresLaterales.cantidad > 0) {
+                strcpy(total.recibidoresDeCierresLaterales.codigo, openings[i].accesorios.recibidoresDeCierresLaterales.codigo);
+                strcpy(total.recibidoresDeCierresLaterales.nombre, openings[i].accesorios.recibidoresDeCierresLaterales.nombre);
+                strcpy(total.recibidoresDeCierresLaterales.unidad, openings[i].accesorios.recibidoresDeCierresLaterales.unidad);
+                total.recibidoresDeCierresLaterales.cantidad += openings[i].accesorios.recibidoresDeCierresLaterales.cantidad;
+            }
+            if (openings[i].accesorios.tapadesagues.cantidad > 0) {
+                strcpy(total.tapadesagues.codigo, openings[i].accesorios.tapadesagues.codigo);
+                strcpy(total.tapadesagues.nombre, openings[i].accesorios.tapadesagues.nombre);
+                strcpy(total.tapadesagues.unidad, openings[i].accesorios.tapadesagues.unidad);
+                total.tapadesagues.cantidad += openings[i].accesorios.tapadesagues.cantidad;
+            }
+        }
+    }
+
+    if (has_any) {
+        strcat(result_text, "Accesorios:\r\n\r\n");
+        Accesorio* accs[] = {
+            &total.cierresLaterales, &total.ruedasParaHojas, &total.ruedasParaMosquitero,
+            &total.tapaMatrizEnganche, &total.taponDeHermeticidadLateralesDeHoja,
+            &total.dispositivosDeEstanqueidad, &total.felpilla, &total.martillos,
+            &total.recibidoresDeCierresLaterales, &total.tapadesagues
+        };
+        for (int i = 0; i < 10; i++) {
+            if (accs[i]->cantidad > 0) {
+                char line[1024];
+                sprintf(line, "Codigo: %s - %s: %.1f %s\r\n", accs[i]->codigo, accs[i]->nombre, accs[i]->cantidad, accs[i]->unidad);
+                strcat(result_text, line);
+            }
+        }
+    }
+
     SetWindowText(hResults, result_text);
     free(result_text);
+    free(bars);
 }
 
 void PrintOutput(HWND hwnd) {

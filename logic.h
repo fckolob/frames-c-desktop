@@ -14,6 +14,27 @@ typedef struct {
 } CodeEntry;
 
 typedef struct {
+    char codigo[16];
+    char nombre[64];
+    double cantidad;
+    char unidad[16];
+} Accesorio;
+
+typedef struct {
+    Accesorio cierresLaterales;
+    Accesorio ruedasParaHojas;
+    Accesorio ruedasParaMosquitero;
+    Accesorio tapaMatrizEnganche;
+    Accesorio taponDeHermeticidadLateralesDeHoja;
+    Accesorio dispositivosDeEstanqueidad;
+    Accesorio felpilla;
+    Accesorio martillos;
+    Accesorio recibidoresDeCierresLaterales;
+    Accesorio tapadesagues;
+    bool has_accessories;
+} ReporteDeAccesorios;
+
+typedef struct {
     char serie[64];
     CodeEntry codes[MAX_CODE_ENTRIES];
     int code_count;
@@ -64,6 +85,9 @@ typedef struct {
     
     // Glass info structured
     Glass glass;
+
+    // Accessories
+    ReporteDeAccesorios accesorios;
 } Opening;
 
 void calculate_pieces(Opening* opening);

@@ -38,12 +38,88 @@ void init_complex_frame(Frame* f, const char* serie, const char* name, const cha
     f->is_complex = true;
 }
 
+void init_accesorio(Accesorio* a, const char* codigo, const char* nombre, double cantidad, const char* unidad) {
+    strncpy(a->codigo, codigo, 15);
+    strncpy(a->nombre, nombre, 63);
+    a->cantidad = cantidad;
+    strncpy(a->unidad, unidad, 15);
+}
+
+void init_reporte_accesorios(Opening* op) {
+    ReporteDeAccesorios* acc = &op->accesorios;
+    memset(acc, 0, sizeof(ReporteDeAccesorios));
+    double w = op->width;
+    double h = op->height;
+    int q = op->quantity;
+    
+    bool is_probba = (strcmp(op->serie, "probbaCorrediza") == 0 || strcmp(op->serie, "probbaCorredizaTripleRiel") == 0 || strcmp(op->serie, "probbaCorredizaTresHojasEnDosRieles") == 0);
+    bool is_gala = (strcmp(op->serie, "galaCorrediza") == 0 || strcmp(op->serie, "galaCorredizaTripleRiel") == 0 || strcmp(op->serie, "galaCorredizaCuatroRieles") == 0);
+
+    if (is_probba || is_gala) {
+        acc->has_accessories = true;
+        
+        // Common for all Probba/Gala (mostly)
+        init_accesorio(&acc->cierresLaterales, "NGG2114", "Cierres Laterales Brio", q * 2.0, "unidades");
+        init_accesorio(&acc->martillos, "NGG6260", "Martillos para cierres laterales Brio", q * 2.0, "unidades");
+        init_accesorio(&acc->recibidoresDeCierresLaterales, "NGG6390", "Recibidor de Cierres Laterales", q * 2.0, "unidades");
+        init_accesorio(&acc->tapadesagues, "AUU3094", "Tapa desagues", (w / 250.0) * 2.0 * q, "unidades");
+        init_accesorio(&acc->dispositivosDeEstanqueidad, "APD3054", "Dispositivos de estanqueidad", q * 2.0, "unidades");
+        init_accesorio(&acc->taponDeHermeticidadLateralesDeHoja, "AGG5600", "Tapones de hermeticidad", q * 4.0, "unidades");
+
+        if (strcmp(op->serie, "probbaCorrediza") == 0 || strcmp(op->serie, "galaCorrediza") == 0) {
+            init_accesorio(&acc->ruedasParaHojas, "AGF1020", "Ruedas regulables para hojas", q * 4.0, "unidades");
+            init_accesorio(&acc->ruedasParaMosquitero, "AGG1060", "Ruedas para mosquitero", q * 2.0, "unidades");
+            init_accesorio(&acc->tapaMatrizEnganche, "AGU3574", "Tapamatrices para enganche", q * 4.0, "unidades");
+            
+            double felp;
+            if (strcmp(op->serie, "probbaCorrediza") == 0)
+                felp = ((((w / 2.0 - 23.0) * 8.0) + ((h - 65.0) * 6.0) + ((w / 2.0 + 11.0) * 4.0) + ((h - 62.0) * 4.0)) / 1000.0) * q;
+            else // galaCorrediza
+                felp = ((((w / 4.0 + 21.0) * 16.0) + ((h - 65.0) * 10.0) + ((w / 4.0 + 11.0) * 4.0) + ((h - 62.0) * 4.0)) / 1000.0) * q;
+            
+            init_accesorio(&acc->felpilla, "AMS7227", "Felpilla", felp, "metros");
+        }
+        else if (strcmp(op->serie, "probbaCorredizaTripleRiel") == 0 || strcmp(op->serie, "galaCorredizaTripleRiel") == 0) {
+            init_accesorio(&acc->ruedasParaHojas, "AGF1020", "Ruedas regulables para hojas", q * 6.0, "unidades");
+            init_accesorio(&acc->ruedasParaMosquitero, "AGG1060", "Ruedas para mosquitero", q * 2.0, "unidades");
+            init_accesorio(&acc->tapaMatrizEnganche, "AGU3574", "Tapamatrices para enganche", q * 8.0, "unidades");
+            acc->dispositivosDeEstanqueidad.cantidad = q * 4.0;
+            
+            double felp;
+            if (strcmp(op->serie, "probbaCorredizaTripleRiel") == 0)
+                felp = ((((w / 2.0 - 23.0) * 8.0) + ((h - 65.0) * 6.0) + ((w / 3.0 + 11.0) * 4.0) + ((h - 62.0) * 4.0)) / 1000.0) * q;
+            else // galaTriple
+                felp = ((((w / 3.0 + 12.0) * 12.0) + ((h - 65.0) * 8.0) + ((w / 3.0 + 11.0) * 4.0) + ((h - 62.0) * 4.0)) / 1000.0) * q;
+            
+            init_accesorio(&acc->felpilla, "AMS7227", "Felpilla", felp, "metros");
+        }
+        else if (strcmp(op->serie, "probbaCorredizaTresHojasEnDosRieles") == 0) {
+            init_accesorio(&acc->ruedasParaHojas, "AGF1020", "Ruedas regulables para hojas", q * 6.0, "unidades");
+            init_accesorio(&acc->ruedasParaMosquitero, "AGG1060", "Ruedas para mosquitero", q * 4.0, "unidades");
+            init_accesorio(&acc->tapaMatrizEnganche, "AGU3574", "Tapamatrices para enganche", q * 8.0, "unidades");
+            acc->dispositivosDeEstanqueidad.cantidad = q * 4.0;
+            
+            double felp = ((((w / 3.0 + 12.0) * 12.0) + ((h - 65.0) * 8.0) + ((w / 4.0 + 11.0) * 8.0) + ((h - 62.0) * 8.0)) / 1000.0) * q;
+            init_accesorio(&acc->felpilla, "AMS7227", "Felpilla", felp, "metros");
+        }
+        else if (strcmp(op->serie, "galaCorredizaCuatroRieles") == 0) {
+            init_accesorio(&acc->ruedasParaHojas, "AGF1020", "Ruedas regulables para hojas", q * 4.0, "unidades");
+            init_accesorio(&acc->ruedasParaMosquitero, "AGG1060", "Ruedas para mosquitero", q * 2.0, "unidades");
+            init_accesorio(&acc->tapaMatrizEnganche, "AGU3574", "Tapamatrices para enganche", q * 4.0, "unidades");
+            
+            double felp = ((((w / 2.0 - 23.0) * 8.0) + ((h - 65.0) * 6.0) + ((w / 2.0 + 11.0) * 4.0) + ((h - 62.0) * 4.0)) / 1000.0) * q;
+            init_accesorio(&acc->felpilla, "AMS7227", "Felpilla", felp, "metros");
+        }
+    }
+}
+
 void calculate_pieces(Opening* op) {
     double w = op->width;
     double h = op->height;
     int q = op->quantity;
     op->frame_count = 0;
-    op->frame_count = 0;
+    
+    init_reporte_accesorios(op);
 
     if (strcmp(op->serie, "s20") == 0) {
         init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Frame", "Horizontal de Marco", op->color, w - 25, q * 2);
@@ -691,6 +767,7 @@ double g_bar_len_ref = 0;
 double g_slice_ref = 0;
 int g_best_assignments[1000];
 int g_current_assignments[1000];
+long g_nodes_visited = 0;
 
 int greedy_bin_packing(double* pieces, int count, double bar_length, double slice_val, int* assignments_out) {
     double bins[1000]; 
@@ -721,6 +798,9 @@ int greedy_bin_packing(double* pieces, int count, double bar_length, double slic
 }
 
 void dfs_bnb(int current_piece_idx, double* current_bins, int bin_count) {
+    g_nodes_visited++;
+    if (g_nodes_visited > 500000) return; // Node limit for safety
+
     // Pruning 1: If current bins already >= best found, stop.
     if (bin_count >= g_best_solution) return;
 
@@ -802,13 +882,14 @@ int calculate_bars_for_group(double* pieces, int count, double bar_length, doubl
     format_cutting_map(map_out, count, pieces, assignments, greedy_res, bar_length);
 
     // Threshold decision for Super Fast performance
-    if (count > 60) {
+    if (count > 50) {
         strcpy(method_out, "Greedy");
         return greedy_res;
     }
 
     // Setup for Branch and Bound
     g_best_solution = greedy_res;
+    g_nodes_visited = 0;
     // Initialize best assignments with greedy result as baseline
     for(int i=0; i<count; i++) g_best_assignments[i] = assignments[i];
     
