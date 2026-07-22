@@ -1125,7 +1125,9 @@ int calculate_materials(Opening* openings, int opening_count, Bar* result_bars, 
                 groups[found].code_count = f->code_count;
                 memcpy(groups[found].codes, f->codes, sizeof(CodeEntry) * f->code_count);
                 groups[found].piece_count = 0;
-            if (strcmp(f->serie, "s20") == 0 || strcmp(f->serie, "s25") == 0 || strcmp(f->serie, "s25TripleRiel") == 0 || strcmp(f->serie, "s25TresHojasEnDosRieles") == 0) {
+            if (strcmp(f->serie, "s20") == 0) {
+                groups[found].bar_length = 5750;
+            } else if (strcmp(f->serie, "s25") == 0 || strcmp(f->serie, "s25TripleRiel") == 0 || strcmp(f->serie, "s25TresHojasEnDosRieles") == 0) {
                 groups[found].bar_length = 5950;
             } else {
                 groups[found].bar_length = 6750;
