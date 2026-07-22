@@ -134,10 +134,16 @@ void ShowProduction() {
             if (f->is_complex) {
                 sprintf(line, "%s Anchos = %d de %.1f\r\nAltos = %d de %.1f\r\n", 
                         f->spanish_name, f->width_quantity, f->length_width, f->height_quantity, f->length_height);
+                strcat(result_text, line);
+                if (f->fix_width_quantity > 0) {
+                    sprintf(line, "%s Fijo Anchos = %d de %.1f\r\nAltos = %d de %.1f\r\n", 
+                            f->spanish_name, f->fix_width_quantity, f->length_fix_width, f->fix_height_quantity, f->length_fix_height);
+                    strcat(result_text, line);
+                }
             } else {
                 sprintf(line, "%d %s %.1f Mitad = %.1f\r\n", f->quantity, f->spanish_name, f->length, f->half);
+                strcat(result_text, line);
             }
-            strcat(result_text, line);
         }
         char glass_desc[1024];
         get_glass_description(&openings[i], glass_desc);
@@ -329,8 +335,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
             CreateWindow("STATIC", "Serie:", WS_VISIBLE | WS_CHILD, x1, y, 150, 20, hwnd, NULL, NULL, NULL);
             hSerie = CreateWindow("COMBOBOX", "", WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST | WS_VSCROLL, x1, y+25, 180, 200, hwnd, (HMENU)ID_CB_SERIE, NULL, NULL);
-            const char* series[] = {"s20", "s25", "s25TripleRiel", "probbaCorrediza", "probbaCorredizaTripleRiel", "probbaCorredizaTresHojasEnDosRieles", "galaCorredizaTripleRiel", "galaCorredizaCuatroRieles", "galaCorrediza"};
-            for(int i=0; i<9; i++) SendMessage(hSerie, CB_ADDSTRING, 0, (LPARAM)series[i]);
+            const char* series[] = {"s20", "s25", "s25TripleRiel", "s25TresHojasEnDosRieles", "probbaCorrediza", "probbaCorredizaTripleRiel", "probbaCorredizaTresHojasEnDosRieles", "galaCorredizaTripleRiel", "galaCorredizaCuatroRieles", "galaCorrediza"};
+            for(int i=0; i<10; i++) SendMessage(hSerie, CB_ADDSTRING, 0, (LPARAM)series[i]);
             SendMessage(hSerie, CB_SETCURSEL, 0, 0);
 
             CreateWindow("STATIC", "Color:", WS_VISIBLE | WS_CHILD, x2, y, 150, 20, hwnd, NULL, NULL, NULL);

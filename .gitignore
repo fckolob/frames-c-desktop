@@ -1,0 +1,49 @@
+# Compiled Object files
+*.o
+*.obj
+*.d
+*.gch
+
+# Compiled Dynamic libraries
+*.so
+*.dll
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Link/shortcut files (Windows specific)
+*.lnk
+
+# Debug and log files
+*.log
+debug_log.txt
+
+# Databases / Temp outputs
+*.dat
+*.tmp
+*.temp
+
+# IDEs & Editor configurations
+.vscode/
+.vs/
+.idea/
+*.suo
+*.user
+*.userossc
+*.sln
+*.vcxproj
+*.filters
+
+# OS metadata files
+Thumbs.db
+Desktop.ini
+.DS_Store

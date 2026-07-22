@@ -47,6 +47,10 @@ typedef struct {
     int quantity;
     int width_quantity;
     int height_quantity;
+    double length_fix_width;
+    double length_fix_height;
+    int fix_width_quantity;
+    int fix_height_quantity;
     double half;
     bool is_complex; // True for Screen Shash / U Dvh
 } Frame;
@@ -69,6 +73,10 @@ typedef struct {
     double height;
     int quantity_lateral;
     int quantity_central;
+    double width_fix;
+    double height_fix;
+    int quantity_fix;
+    bool has_fixed;
     bool is_complex; // True if uses lateral/central distinct widths
 } Glass;
 
@@ -93,5 +101,6 @@ typedef struct {
 void calculate_pieces(Opening* opening);
 int calculate_materials(Opening* openings, int opening_count, Bar* result_bars, double default_bar_length);
 void get_glass_description(Opening* op, char* buffer);
+void init_complex_frame_with_fix(Frame* frame, const char* serie, const char* name, const char* spanish_name, const char* color, double w, int qw, double h, int qh, double fw, int qfw, double fh, int qfh);
 
 #endif // LOGIC_H
