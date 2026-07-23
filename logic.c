@@ -460,6 +460,109 @@ void calculate_pieces(Opening* op) {
             op->glass.has_fixed = true;
         }
     }
+    else if (strcmp(op->serie, "s25ReforzadaTresHojasEnDosRieles") == 0) {
+        init_frame(&op->frames[op->frame_count], op->serie, "Inferior Frame", "Inferior de Marco", op->color, w - 51, q);
+        add_code(&op->frames[op->frame_count], "abasur", "E4939");
+        add_code(&op->frames[op->frame_count], "juan", "2354");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], op->serie, "Superior Frame", "Superior de Marco", op->color, w - 51, q);
+        add_code(&op->frames[op->frame_count], "abasur", "E4673");
+        add_code(&op->frames[op->frame_count], "juan", "2353");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], op->serie, "Vertical Frame", "Lateral de Marco", op->color, h, q * 2);
+        add_code(&op->frames[op->frame_count], "abasur", "E4675");
+        add_code(&op->frames[op->frame_count], "juan", "2351");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash", "Lateral de Hoja", op->color, h - 48, q);
+        add_code(&op->frames[op->frame_count], "abasur", "E2862");
+        add_code(&op->frames[op->frame_count], "urualum", "4505");
+        add_code(&op->frames[op->frame_count], "juan", "4505");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], op->serie, "Lateral Shash Fix", "Lateral de Hoja Fijo", op->color, h - 5, q);
+        add_code(&op->frames[op->frame_count], "abasur", "E2862");
+        add_code(&op->frames[op->frame_count], "urualum", "4505");
+        add_code(&op->frames[op->frame_count], "juan", "4505");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], op->serie, "Central Shash", "Enganche", op->color, h - 48, q * 2);
+        add_code(&op->frames[op->frame_count], "abasur", "E2861");
+        add_code(&op->frames[op->frame_count], "urualum", "4507");
+        add_code(&op->frames[op->frame_count], "juan", "155 o 4507");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], op->serie, "Central Shash Reinforced", "Enganche Reforzado", op->color, h - 48, q);
+        add_code(&op->frames[op->frame_count], "abasur", "E4496");
+        add_code(&op->frames[op->frame_count], "urualum", "4537");
+        add_code(&op->frames[op->frame_count], "juan", "4537");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], op->serie, "Central Shash Fix Reinforced", "Enganche Fijo Reforzado", op->color, h - 5, q);
+        add_code(&op->frames[op->frame_count], "abasur", "E4496");
+        add_code(&op->frames[op->frame_count], "urualum", "4537");
+        add_code(&op->frames[op->frame_count], "juan", "4537");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Big", "Horizontal de Hoja Grueso", op->color, w / 3.0 - 77, q * 4);
+        add_code(&op->frames[op->frame_count], "abasur", "E2859");
+        add_code(&op->frames[op->frame_count], "urualum", "4503");
+        add_code(&op->frames[op->frame_count], "juan", "4503");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Shash Big Fix", "Horizontal de Hoja Grueso Fijo", op->color, w / 3.0 - 49, q * 2);
+        add_code(&op->frames[op->frame_count], "abasur", "E2859");
+        add_code(&op->frames[op->frame_count], "urualum", "4503");
+        add_code(&op->frames[op->frame_count], "juan", "4503");
+        op->frame_count++;
+
+        init_complex_frame(&op->frames[op->frame_count], op->serie, "Screen Shash", "Hoja de Mosquitero", op->color, w / 3.0 - 9, q * 2, h - 40, q * 2);
+        add_code(&op->frames[op->frame_count], "abasur", "E2860");
+        add_code(&op->frames[op->frame_count], "urualum", "4506");
+        add_code(&op->frames[op->frame_count], "juan", "4506");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], op->serie, "Screen Guide S25 L", "Guia de Mosquitero S25 L", op->color, w - 5, q);
+        add_code(&op->frames[op->frame_count], "abasur", "E4678");
+        add_code(&op->frames[op->frame_count], "urualum", "213");
+        add_code(&op->frames[op->frame_count], "juan", "213");
+        add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 0213");
+        op->frame_count++;
+
+        init_frame(&op->frames[op->frame_count], op->serie, "Screen Guide S25 P", "Guia de Mosquitero S25 P", op->color, w - 5, q);
+        add_code(&op->frames[op->frame_count], "abasur", "E4677");
+        add_code(&op->frames[op->frame_count], "urualum", "2344");
+        add_code(&op->frames[op->frame_count], "juan", "2344");
+        add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 0213");
+        op->frame_count++;
+
+        if (op->dvh) {
+            init_complex_frame_with_fix(&op->frames[op->frame_count], op->serie, "U Dvh", "U Dvh", op->color, w / 3.0 - 81, q * 4, h - 170, q * 4, w / 3.0 - 53, q * 2, h - 127, q * 2);
+            add_code(&op->frames[op->frame_count], "abasur", "E4886");
+            add_code(&op->frames[op->frame_count], "juan", "4590");
+            op->frame_count++;
+            
+            op->glass.is_complex = false;
+            op->glass.width_central = w / 3.0 - 92;
+            op->glass.height = h - 183;
+            op->glass.quantity_central = q * 2;
+            op->glass.width_fix = w / 3.0 - 64;
+            op->glass.height_fix = h - 140;
+            op->glass.quantity_fix = q;
+            op->glass.has_fixed = true;
+        } else {
+            op->glass.is_complex = false;
+            op->glass.width_central = w / 3.0 - 61;
+            op->glass.height = h - 152;
+            op->glass.quantity_central = q * 2;
+            op->glass.width_fix = w / 3.0 - 33;
+            op->glass.height_fix = h - 109;
+            op->glass.quantity_fix = q;
+            op->glass.has_fixed = true;
+        }
+    }
     else if (strcmp(op->serie, "probbaCorrediza") == 0) {
         init_frame(&op->frames[op->frame_count], op->serie, "Horizontal Frame", "Horizontal de Marco", op->color, w - 36, q * 2);
         add_code(&op->frames[op->frame_count], "aluminiosDelUruguay", "PN 93150");
@@ -1127,7 +1230,7 @@ int calculate_materials(Opening* openings, int opening_count, Bar* result_bars, 
                 groups[found].piece_count = 0;
             if (strcmp(f->serie, "s20") == 0) {
                 groups[found].bar_length = 5750;
-            } else if (strcmp(f->serie, "s25") == 0 || strcmp(f->serie, "s25TripleRiel") == 0 || strcmp(f->serie, "s25TresHojasEnDosRieles") == 0) {
+            } else if (strcmp(f->serie, "s25") == 0 || strcmp(f->serie, "s25TripleRiel") == 0 || strcmp(f->serie, "s25TresHojasEnDosRieles") == 0 || strcmp(f->serie, "s25ReforzadaTresHojasEnDosRieles") == 0) {
                 groups[found].bar_length = 5950;
             } else {
                 groups[found].bar_length = 6750;
