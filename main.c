@@ -2,6 +2,7 @@
 #include <commctrl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "logic.h"
 
 void Log(const char* msg) {
@@ -123,25 +124,42 @@ void ShowProduction() {
 
     for (int i = 0; i < opening_count; i++) {
         char line[2048];
+        char sw[32], sh[32];
+        fmt_num(openings[i].width, sw, sizeof(sw));
+        fmt_num(openings[i].height, sh, sizeof(sh));
+
         strcat(result_text, "--------------------------------------------------\r\n");
-        sprintf(line, "%d Aberturas de %.1f Ancho x %.1f Alto %s %s DVH? = %s\r\n", 
-                openings[i].quantity, openings[i].width, openings[i].height, 
+        sprintf(line, "%d Aberturas de %s Ancho x %s Alto %s %s DVH? = %s\r\n", 
+                openings[i].quantity, sw, sh, 
                 openings[i].serie, openings[i].color, openings[i].dvh ? "true" : "false");
         strcat(result_text, line);
         
         for (int j = 0; j < openings[i].frame_count; j++) {
             Frame* f = &openings[i].frames[j];
             if (f->is_complex) {
-                sprintf(line, "%s Anchos = %d de %.1f\r\nAltos = %d de %.1f\r\n", 
-                        f->spanish_name, f->width_quantity, f->length_width, f->height_quantity, f->length_height);
+                char flw[32], flh[32];
+                fmt_num(f->length_width, flw, sizeof(flw));
+                fmt_num(f->length_height, flh, sizeof(flh));
+                sprintf(line, "%s Anchos = %d de %s\r\nAltos = %d de %s\r\n", 
+                        f->spanish_name, f->width_quantity, flw, f->height_quantity, flh);
                 strcat(result_text, line);
                 if (f->fix_width_quantity > 0) {
-                    sprintf(line, "%s Fijo Anchos = %d de %.1f\r\nAltos = %d de %.1f\r\n", 
-                            f->spanish_name, f->fix_width_quantity, f->length_fix_width, f->fix_height_quantity, f->length_fix_height);
+                    char ffw[32], ffh[32];
+                    fmt_num(f->length_fix_width, ffw, sizeof(ffw));
+                    fmt_num(f->length_fix_height, ffh, sizeof(ffh));
+                    sprintf(line, "%s Fijo Anchos = %d de %s\r\nAltos = %d de %s\r\n", 
+                            f->spanish_name, f->fix_width_quantity, ffw, f->fix_height_quantity, ffh);
                     strcat(result_text, line);
                 }
             } else {
-                sprintf(line, "%d %s %.1f Mitad = %.1f\r\n", f->quantity, f->spanish_name, f->length, f->half);
+                char flen[32], fhalf[32];
+                fmt_num(f->length, flen, sizeof(flen));
+                if (frame_has_half(f->name)) {
+                    fmt_num(f->half, fhalf, sizeof(fhalf));
+                    sprintf(line, "%d %s %s Mitad = %s\r\n", f->quantity, f->spanish_name, flen, fhalf);
+                } else {
+                    sprintf(line, "%d %s %s\r\n", f->quantity, f->spanish_name, flen);
+                }
                 strcat(result_text, line);
             }
         }
@@ -271,7 +289,14 @@ void ShowMaterials() {
         for (int i = 0; i < 10; i++) {
             if (accs[i]->cantidad > 0) {
                 char line[1024];
-                sprintf(line, "Codigo: %s - %s: %.1f %s\r\n", accs[i]->codigo, accs[i]->nombre, accs[i]->cantidad, accs[i]->unidad);
+                char cant_str[32];
+                double int_part;
+                if (fabs(modf(accs[i]->cantidad, &int_part)) < 0.0001) {
+                    snprintf(cant_str, sizeof(cant_str), "%.0f", accs[i]->cantidad);
+                } else {
+                    snprintf(cant_str, sizeof(cant_str), "%.2f", accs[i]->cantidad);
+                }
+                sprintf(line, "Codigo: %s - %s: %s %s\r\n", accs[i]->codigo, accs[i]->nombre, cant_str, accs[i]->unidad);
                 strcat(result_text, line);
             }
         }
@@ -439,6 +464,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
+    (void)hPrevInstance;
+    (void)lpCmdLine;
     Log("App Starting...");
     INITCOMMONCONTROLSEX icex;
     icex.dwSize = sizeof(INITCOMMONCONTROLSEX);

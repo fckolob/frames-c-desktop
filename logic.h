@@ -102,5 +102,7 @@ void calculate_pieces(Opening* opening);
 int calculate_materials(Opening* openings, int opening_count, Bar* result_bars, double default_bar_length);
 void get_glass_description(Opening* op, char* buffer);
 void init_complex_frame_with_fix(Frame* frame, const char* serie, const char* name, const char* spanish_name, const char* color, double w, int qw, double h, int qh, double fw, int qfw, double fh, int qfh);
+void fmt_num(double val, char* out, int max_len);
+bool frame_has_half(const char* name);
 
 #endif // LOGIC_H
